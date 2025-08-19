@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express    = require("express"),
       app        = express(),
       mongoose   = require("mongoose"),
@@ -14,8 +16,7 @@ const commentRoutes     = require("./routes/comments"),
       campgroundRoutes  = require("./routes/campgrounds"),
       indexRoutes       = require("./routes/index");
 
-const url = process.env.DATABASEURL || "mongodb://localhost:27017/yelp_camp";
-mongoose.connect(url,
+mongoose.connect(process.env.DATABASE_URL,
 {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify:false});
 
 app.use(express.urlencoded({ extended: true }));
@@ -29,7 +30,7 @@ app.locals.moment = require('moment');
 
 // PASSPORT CONFIGURATION
 app.use(require("express-session")({
-    secret: "Once again Harry Potter makes me nostalgic!",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false
 }));
